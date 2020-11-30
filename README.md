@@ -1,68 +1,267 @@
 ---
-page_type: sample
-description: "Deploy dotnet application using GitHub Actions"
+page_type: python and linux script
+description: "Configure and deploy IoT Edge on STM32MP1 board"
 products:
-- GitHub Actions
-- Azure App service
+- Azure IoT Hub
+- Azure IoT Edge
 languages:
-- dotnet
+- Shell and python
 ---
 
-# Sample ASP.NET Core application for GitHub Actions
+# Configure and deploy IoT Edge on Linux VM
 
-For all samples to set up GitHub workflows, see [Create your first workflow](https://github.com/Azure/actions-workflow-samples
-
-# Steps to create an End-to-End CI/CD Workflow
 
 ## Pre-requisites
-* Create a new Web App in Azure Portal with runtime stack as .NET and OS as Windows
-* Copy Publish Profile Settings of the app
+* Azure account: 
+    Bring your own Azure account to keep all your dev works. 
+    or apply one for trial https://azure.microsoft.com/en-us/free/
+* Install VS Code:
+    https://code.visualstudio.com/download
+* Install Azure IoT Explorer:
+    https://github.com/Azure/azure-iot-explorer/releases. How to use: https://docs.microsoft.com/en-us/azure/iot-pnp/howto-use-iot-explorer
+* Install extensiton for VS code
+    Azure IoT tools: https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-tools
+    vsciot-vscode.azure-iot-edge
+    vsciot-vscode.azure-iot-toolkit
+    
 
-### Create an ASP.NET App Service in Azure
+## Configure IoT Hub and Edge on Azure Portal
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-webapp-windows-ASPNET%2Fazuredeploy.json" target="_blank">
-    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/>
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-webapp-windows-ASPNET%2Fazuredeploy.json" target="_blank">
-    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.png"/>
-</a>
+### Create IoT Hub on Azure Portal 
 
-This template deploys a web app with ASP.NET support. The web app with ASP.NET is an app service that allows you to deploy your ASP.NET website. This will deploy a free tier Windows App Service Plan where you will host your App Service.
+1. Create IoT Hub. Ignore if you have your own Hub already. Follow below link. 
+https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal?view=iotedge-2018-06
 
-If you are new to Azure App Service, see:
+2. Register an IoT Edge device
 
-- [Azure App Service](https://azure.microsoft.com/services/app-service/web/)
-- [Template reference](https://docs.microsoft.com/azure/templates/microsoft.web/allversions)
-- [Quickstart templates](https://azure.microsoft.com/resources/templates/?resourceType=Microsoft.Compute&pageNumber=1&sort=Popular&term=web+apps)
+Create a device identity for your IoT Edge device so that it can communicate with your IoT hub. The device identity lives in the cloud, and you use a unique device connection string to associate a physical device to a device identity.
 
-## Configure secrets in the GH repo:
-* In the GH repo with Application code, [Define a new secret](https://github.com/Azure/actions-workflow-samples/blob/master/assets/create-secrets-for-GitHub-workflows.md) under repository by navigating to **settings** > **secrets** > **Add a new secret** 
-* Paste the contents for the downloaded publish profile file into the secret's value field
-* Now in the workflow file in your branch: `.github/workflows/workflow.yml` replace the secret for the input `publish-profile:` of the deploy Azure WebApp action
+[Azure Portal] Goes to your IOT Hub, click IoT Edge link in left hand navigator. Click "Add an IoT Edge Device" in top area. 
 
-## test your workflow
-* Commit a change in the app code. 
-* You should see a new GitHub Action initiated in **Actions** tab.
-* At the end of the execution, navigate to the App URL to visualise the change introduced.
+![](./figures/2020-11-26-09-42-37.png)
 
-## Workflow YAML explained
+Input "Device ID": my-iotworkshop-edge01, click "Save".
+Reclick the new edge "my-iotworkshop-edge01" created, copy the "primary connection string", save to your notepad to use later. 
 
-* [Checkout](https://github.com/actions/checkout) Checks out your Git repository content into Github Actions agent.
-* Environment setup using [Setup MSBuild](https://github.com/microsoft/setup-msbuild) - Sets up a ms-build environment by optionally downloading and caching a version of dotnet by SDK version and adding to PATH .
-* DotNet Build & Publish
-* Deploy to App service using azure/webapps-deploy@v1 action which authenticates using [Azure Web App Publish Profile](https://github.com/projectkudu/kudu/wiki/Deployment-credentials#site-credentials-aka-publish-profile-credentials)
-which we configured using the secret set up at the repo level
+![](./figures/2020-11-26-09-45-36.png)
 
-## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+### Connect your IoT Edge on board to cloud 
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+1. Switch your new flashed board to "on"
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+2. Connect your board to internet, either via Ethernet or Wifi dongle 
+
+3. Network SSH or use Tera Term to terminal to connect to your board
+
+    PC> ssh root@your_board_ip_address
+
+    PC> cd /etc/iotedge
+
+    PC> cp ./config.yaml ./config.yaml.orig
+
+4. Input the previous Edge connection string to config.yaml file below. Also modify hostname.
+
+    PC> vi ./config.yaml
+
+    -- Manual provisioning configuration
+    provisioning:
+    source: "manual"
+    device_connection_string: "<ADD DEVICE CONNECTION STRING HERE>"
+
+        -- Sample connection string as below 
+        HostName=yourhub.azure-devices.net;DeviceId=my-iotworkshop-edge01;SharedAccessKey=yourkey
+    -- 
+
+    hostname: "<ADD HOSTNAME HERE>"
+    to, 
+    hostname: "stm32mp1"
+    --
+
+Then, save config.yaml
+
+5. Restart your edge to take effect 
+
+    PC> systemctl restart iotedge
+
+It will take around 3 - 5 mins for yor edge to download firat IoT Edge module, edgeAgent
+
+![](./figures/2020-11-26-10-15-07.png)
+
+
+6. Some usful commands to check your edge status
+
+    PC> systemctl status iotedge
+    PC> iotedge list 
+    PC> iotedge logs -f edgeAgent
+
+### Set your IoT Edge to install modules
+
+1. Open your VS code
+
+Git clone https://github.com/philipcaffeine/azureiot-stm32mp1
+
+2. Connect your VS code to IoT Hub
+
+Copy IoT Hub string from Azure Portal. Open Azure Portal, click your Iot Hub, click "Shared access policies" in left hand side. 
+Select "iothubowner", copy the "connection string-primary key" to notepad.
+
+![](./figures/2020-11-26-10-39-15.png)
+
+Open your VS code, in command platte, select "Azure IOT Hub, set connection string" 
+
+![](./figures/2020-11-26-10-40-14.png)
+
+
+3. Deployment new edge modules via VS code
+
+    PC > mkdir $HOME/root/sensor
+    PC > mkdir $HOME/root/sensor/output
+
+First to replace the password get from your instructor. 
+
+![](./figures/2020-11-26-10-47-54.png)
+
+Right click to generate the deployment to your edge device.
+
+![](./figures/2020-11-26-10-41-36.png)
+
+
+![](./figures/2020-11-26-10-43-15.png)
+
+
+4. You can watch logs from edgeAgent to check installation progesss as well 
+
+    PC> iotedge logs -f edgeAgent
+
+5. Verify if your IoT Hub is getting telemetry from Edge module to Hub
+
+
+Open Azure IoT Explorer from your laptop. Add new connection from your previous "IOT Hub conenctrion string" 
+
+![](./figures/2020-11-26-11-18-33.png)
+
+Click the previous created Edge from list. Click "Telemetry" from left hand navigator. Click start to monitor the data.
+
+
+![](./figures/2020-11-26-11-50-06.png)
+
+
+### Create Stream Analytics to stream your data to cloud PowerBI
+
+1. Create Stream Analytics Job in Azure Portal
+
+![](./figures/2020-11-26-11-52-32.png)
+
+provide name and region. 
+
+![](./figures/2020-11-26-11-53-12.png)
+
+
+2. Create consumer group in your IoT Hub
+
+Select "Build in endpoint" from IoT Hub, and crreate a new consume group, naming like "stsajob01consume"
+
+![](./figures/2020-11-26-11-55-38.png)
+
+3. Configure Stream Analytics Job 
+
+Add "input" from left hand side, select "IoT Hub" 
+
+![](./figures/2020-11-26-11-57-28.png)
+
+Leave all default value, just provide "input alias" and select the consumer group just created 
+
+![](./figures/2020-11-26-11-58-47.png)
+
+
+Add "Output", and select "PowerBI"
+
+![](./figures/2020-11-26-11-59-28.png)
+
+Authorize with your existing Power BI account, or "Sign up" a free 60 days trial account. 
+
+![](./figures/2020-11-26-12-00-15.png)
+
+Add output alias, choose Power BI workspace, input dataset and table name. Select "user token" as authentication method.
+
+![](./figures/2020-11-26-12-04-11.png)
+
+
+Select "Query", and add below query string: 
+
+    SELECT
+        machine.temperature as mTemperature, 
+        machine.pressure as mPressure, 
+        ambient.temperature as aTemperature, 
+        ambient.humidity as aHumidity, 
+        timeCreated 
+    INTO
+        [stmp1powerbi] 
+    FROM
+        [phil-iothub01]
+
+![](./figures/2020-11-26-12-12-01.png)
+
+Back to "overview" and click "start". 
+
+![](./figures/2020-11-26-12-12-34.png)
+
+
+4. View streaming dataset in PowerBi.com
+
+Navigate link of https://powerbi.microsoft.com
+Sign in with account just created. 
+
+Select your workspace. 
+
+![](./figures/2020-11-26-12-15-27.png)
+
+Found there is a new dataset just generated. 
+
+![](./figures/2020-11-26-12-16-02.png)
+
+
+Add new dashboard from it. 
+
+![](./figures/2020-11-26-12-16-44.png)
+
+Add a tile in your dashboard
+
+![](./figures/2020-11-26-12-17-26.png)
+
+Select real time dataset
+
+![](./figures/2020-11-26-12-17-50.png)
+
+Select the new dataset from stmp1 board
+
+![](./figures/2020-11-26-12-18-17.png)
+
+Select "clustered column chart", Axis "timeCreated", values as "mTemparature", and time windows as "last 1 minute" to display
+
+![](./figures/2020-11-26-12-20-38.png)
+
+
+You can add more real time tiles into same dashboard as you want. 
+
+![](./figures/2020-11-26-12-26-03.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
