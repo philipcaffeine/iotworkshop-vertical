@@ -1,6 +1,6 @@
 ---
 page_type: python and linux script
-description: "Configure and deploy IoT Edge on STM32MP1 board"
+description: "Configure and deploy IoT Edge on VM"
 products:
 - Azure IoT Hub
 - Azure IoT Edge
@@ -9,6 +9,19 @@ languages:
 ---
 
 # Configure and deploy IoT Edge on Linux VM
+
+
+## Lab Environment Pre-requisites
+1. Internet Access 
+2. An Azure China Subscription
+    
+    You can use your own Azure Subscription, or use below link to apply an Azure China trial subscription.
+    
+    https://azure.microsoft.com/en-us/free/
+    
+3. Online RPI Simulator Access
+    
+    https://azure-samples.github.io/raspberry-pi-web-simulator/#GetStarted
 
 
 ## Pre-requisites
@@ -23,7 +36,15 @@ languages:
     Azure IoT tools: https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-tools
     vsciot-vscode.azure-iot-edge
     vsciot-vscode.azure-iot-toolkit
-    
+
+----------------------------------------------------------------------------
+
+## Start IoT Edge from a Linux VM 
+
+Follow the link below: 
+https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2018-06&tabs=linux
+
+
 
 ## Configure IoT Hub and Edge on Azure Portal
 
@@ -48,21 +69,10 @@ Reclick the new edge "my-iotworkshop-edge01" created, copy the "primary connecti
 
 ### Connect your IoT Edge on board to cloud 
 
-1. Switch your new flashed board to "on"
-
-2. Connect your board to internet, either via Ethernet or Wifi dongle 
-
-3. Network SSH or use Tera Term to terminal to connect to your board
-
-    PC> ssh root@your_board_ip_address
-
-    PC> cd /etc/iotedge
-
-    PC> cp ./config.yaml ./config.yaml.orig
 
 4. Input the previous Edge connection string to config.yaml file below. Also modify hostname.
 
-    PC> vi ./config.yaml
+    PC> vi /etc/iotedge/config.yaml
 
     -- Manual provisioning configuration
     provisioning:
@@ -72,11 +82,6 @@ Reclick the new edge "my-iotworkshop-edge01" created, copy the "primary connecti
         -- Sample connection string as below 
         HostName=yourhub.azure-devices.net;DeviceId=my-iotworkshop-edge01;SharedAccessKey=yourkey
     -- 
-
-    hostname: "<ADD HOSTNAME HERE>"
-    to, 
-    hostname: "stm32mp1"
-    --
 
 Then, save config.yaml
 
@@ -115,12 +120,6 @@ Open your VS code, in command platte, select "Azure IOT Hub, set connection stri
 
 3. Deployment new edge modules via VS code
 
-    PC > mkdir $HOME/root/sensor
-    PC > mkdir $HOME/root/sensor/output
-
-First to replace the password get from your instructor. 
-
-![](./figures/2020-11-26-10-47-54.png)
 
 Right click to generate the deployment to your edge device.
 
