@@ -50,5 +50,17 @@ https://docs.microsoft.com/en-us/azure/iot-central/core/howto-connect-sphere
 
 https://docs.microsoft.com/en-us/azure/iot-central/core/quick-configure-rules
 
+![](./figures/central-2.png)
+
+## Analyze data on Central 
+
+https://docs.microsoft.com/en-us/azure/iot-central/core/howto-create-analytics
+
+![](./figures/central-1.png)
+
+
+## Explore API of IoT Central 
+
+https://docs.microsoft.com/en-us/learn/modules/manage-iot-central-apps-with-rest-api/
 
 
