@@ -8,15 +8,14 @@ languages:
 - Shell and python
 ---
 
-# Configure and deploy IoT Edge on Linux VM
+# Advance IoT Central use case with Sphere 
 
 
 ## Lab Environment Pre-requisites
 1. Internet Access 
-2. An Azure China Subscription
+2. An Azure Subscription
     
-    You can use your own Azure Subscription, or use below link to apply an Azure China trial subscription.
-    
+    You can use your own Azure Subscription, or use below link to apply an Azure China trial subscription.    
     https://azure.microsoft.com/en-us/free/
     
 3. Online RPI Simulator Access
@@ -36,4 +35,20 @@ languages:
     Azure IoT tools: https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-tools
     vsciot-vscode.azure-iot-edge
     vsciot-vscode.azure-iot-toolkit
+
+
+## Create a new Application on IoT Central 
+
+https://docs.microsoft.com/en-us/azure/iot-central/core/quick-deploy-iot-central
+
+## Connect Azure Sphere devkit simulated device to IoT Central
+
+https://docs.microsoft.com/en-us/azure/iot-central/core/howto-connect-sphere
+
+
+## Create a rule to trigger Email action while temperature too high
+
+https://docs.microsoft.com/en-us/azure/iot-central/core/quick-configure-rules
+
+
 

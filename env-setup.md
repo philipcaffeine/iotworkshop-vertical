@@ -1,6 +1,6 @@
 # Lab Environment Pre-requisites
 1. Internet Access 
-2. An Azure China Subscription
+2. An Azure Subscription
     
     You can use your own Azure Subscription, or use below link to apply an Azure China trial subscription.
     
