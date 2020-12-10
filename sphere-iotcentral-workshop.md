@@ -52,11 +52,27 @@ https://docs.microsoft.com/en-us/azure/iot-central/core/quick-configure-rules
 
 ![](./figures/central-2.png)
 
+
+## Create Job to trigger command to device
+
+https://docs.microsoft.com/en-us/azure/iot-central/core/quick-configure-rules
+
+![](./figures/central-3.png)
+
+![](./figures/central-4.png)
+
+
 ## Analyze data on Central 
 
 https://docs.microsoft.com/en-us/azure/iot-central/core/howto-create-analytics
 
 ![](./figures/central-1.png)
+
+
+## Extend Azure IoT Central with custom analytics using Azure Databricks
+
+https://docs.microsoft.com/en-us/azure/iot-central/core/howto-create-custom-analytics
+
 
 
 ## Explore API of IoT Central 
