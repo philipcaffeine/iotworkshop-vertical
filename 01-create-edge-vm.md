@@ -10,6 +10,14 @@ languages:
 
 # Configure and deploy IoT Edge on Linux VM
 
+## Lab objectives: 
+
+1. Configure IoT Hub and Edge on Azure Portal
+2. Connect your IoT Edge on board to cloud 
+3. Set your IoT Edge to install modules
+4. Create Stream Analytics to stream your data to cloud PowerBI
+
+
 
 ## Lab Environment Pre-requisites
 1. Internet Access 
@@ -43,7 +51,6 @@ languages:
 
 Follow the link below: 
 https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2018-06&tabs=linux
-
 
 
 ## Configure IoT Hub and Edge on Azure Portal
