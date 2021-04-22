@@ -201,3 +201,12 @@ sudo iotedge check --diagnostics-image-name <parent_device_fqdn_or_ip>:8000/azur
 
  - check your lower edge message is transmitting to hub
 ![](./figures/nestededge05.png)
+
+
+8. Finally, to check if your lower edge inbounds is closed? 
+
+telnet topedge-new.southeastasia.cloudapp.azure.com 8883
+
+telnet loweredge-new.southeastasia.cloudapp.azure.com 8883
+
+

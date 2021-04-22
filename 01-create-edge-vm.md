@@ -22,7 +22,7 @@ languages:
 ## Pre-requisites
 * Azure account: 
     Bring your own Azure account to keep all your dev works. 
-    or apply one for trial https://azure.microsoft.com/en-us/free/
+
 * Install VS Code:
     https://code.visualstudio.com/download
 * Install Azure IoT Explorer:
@@ -37,7 +37,7 @@ languages:
 ## Start IoT Edge from a Linux VM 
 
 Follow the link below: 
-https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2018-06&tabs=linux
+https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2020-11
 
 
 ## Configure IoT Hub and Edge on Azure Portal
@@ -66,22 +66,26 @@ Reclick the new edge "my-iotworkshop-edge01" created, copy the "primary connecti
 
 4. Input the previous Edge connection string to config.yaml file below. Also modify hostname.
 
-    PC> vi /etc/iotedge/config.yaml
+    PC> sudo cp /etc/aziot/config.toml.edge.template /etc/aziot/config.toml
+    PC> sudo vi /etc/aziot/config.toml
 
-    -- Manual provisioning configuration
-    provisioning:
-    source: "manual"
-    device_connection_string: "<ADD DEVICE CONNECTION STRING HERE>"
+    # Manual provisioning with connection string
+    [provisioning]
+    source = "manual"
+    connection_string = "<ADD DEVICE CONNECTION STRING HERE>"
 
-        -- Sample connection string as below 
-        HostName=yourhub.azure-devices.net;DeviceId=my-iotworkshop-edge01;SharedAccessKey=yourkey
-    -- 
-
-Then, save config.yaml
+    Then, save config.toml
 
 5. Restart your edge to take effect 
 
-    PC> systemctl restart iotedge
+    PC> sudo iotedge config apply
+
+6. Verify success installation 
+
+sudo iotedge system status
+sudo iotedge system logs
+sudo iotedge check
+
 
 It will take around 3 - 5 mins for yor edge to download firat IoT Edge module, edgeAgent
 
@@ -90,7 +94,6 @@ It will take around 3 - 5 mins for yor edge to download firat IoT Edge module, e
 
 6. Some usful commands to check your edge status
 
-    PC> systemctl status iotedge
     PC> iotedge list 
     PC> iotedge logs -f edgeAgent
 
