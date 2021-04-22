@@ -45,6 +45,7 @@ https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iot
 ### Create IoT Hub on Azure Portal 
 
 1. Create IoT Hub. Ignore if you have your own Hub already. Follow below link. 
+
 https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal?view=iotedge-2018-06
 
 2. Register an IoT Edge device
@@ -66,10 +67,11 @@ Reclick the new edge "my-iotworkshop-edge01" created, copy the "primary connecti
 
 4. Input the previous Edge connection string to config.yaml file below. Also modify hostname.
 
-    PC> sudo cp /etc/aziot/config.toml.edge.template /etc/aziot/config.toml
-    PC> sudo vi /etc/aziot/config.toml
+    sudo cp /etc/aziot/config.toml.edge.template /etc/aziot/config.toml
+    sudo vi /etc/aziot/config.toml
 
-    # Manual provisioning with connection string
+    - Manual provisioning with connection string
+    
     [provisioning]
     source = "manual"
     connection_string = "<ADD DEVICE CONNECTION STRING HERE>"
@@ -78,7 +80,7 @@ Reclick the new edge "my-iotworkshop-edge01" created, copy the "primary connecti
 
 5. Restart your edge to take effect 
 
-    PC> sudo iotedge config apply
+    - sudo iotedge config apply
 
 6. Verify success installation 
 
