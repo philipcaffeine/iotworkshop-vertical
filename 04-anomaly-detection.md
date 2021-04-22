@@ -1,6 +1,6 @@
 ---
 page_type: Simple demo for anomaly detection
-description: "Create Nested Edge of IIOT"
+description: "Anomaly detection"
 products:
 - Azure Cognitive Service - anomaly detector
 
@@ -8,11 +8,9 @@ languages:
 - Shell and python
 ---
 
-# Tutorial: Create a hierarchy of IoT Edge devices
 
 ## Lab objectives: 
 
-1. xxx 
 
 ## Pre-requisites
 * Azure account: 
@@ -22,12 +20,16 @@ languages:
 
 ----------------------------------------------------------------------------
 
-## Tutorial: Create a hierarchy of IoT Edge devices
+## Time series data for Anomaly detection
 
 Follow the link below: 
 
+Python client sample for Anomaly detection
 https://docs.microsoft.com/en-us/samples/azure/azure-sdk-for-python/anomalydetector-samples/
 
+- interactive demo 
 https://algoevaluation.azurewebsites.net/#/
+
+
 
 
