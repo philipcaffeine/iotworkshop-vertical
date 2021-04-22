@@ -186,3 +186,18 @@ lower edge installation
 
 top edge installation 
 ![](./figures/nestededge03.png)
+
+
+7. Run post installation check 
+
+ - check top layer edge
+sudo iotedge check
+
+ - check lower layer edge 
+sudo iotedge check --diagnostics-image-name <parent_device_fqdn_or_ip>:8000/azureiotedge-diagnostics:1.2
+
+ - check your iot hub of edge status from Azure Portal 
+![](./figures/nestededge04.png)
+
+ - check your lower edge message is transmitting to hub
+![](./figures/nestededge05.png)
