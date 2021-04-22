@@ -170,8 +170,19 @@ cd ~/nestedIotEdgeTutorial/iotedge_config_cli_release
 sudo apt install zip
 unzip ~/<PATH_TO_CONFIGURATION_BUNDLE>/<CONFIGURATION_BUNDLE>.zip
 
+before following, install iot edge first: 
+
 sudo ./install.sh
 
+On the top layer device, you will receive a prompt to enter the hostname. 
+
+On the lower layer device, it will ask for the hostname and parent's hostname. Supply the appropriate IP or FQDN for each prompt. You can use either, but be consistent in your choice across devices. The output of the install script is pictured below.
+
+https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2020-11
 
 
+lower edge installation 
+![](./figures/nestededge02.png)
 
+top edge installation 
+![](./figures/nestededge03.png)
