@@ -18,9 +18,14 @@ languages:
 * Install VS Code:
     https://code.visualstudio.com/download
 
+* Create Azure Cognitive service for Anomaly detector 
+
+
+
 ----------------------------------------------------------------------------
 
 ## Time series data for Anomaly detection
+
 
 Follow the link below: 
 
