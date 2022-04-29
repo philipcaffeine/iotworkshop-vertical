@@ -63,66 +63,67 @@ use bind mount: /srv/containerdata:/blobroot. Make sure to follow the steps to g
 /var/iotedgeblob:/blobroot
 
 
-On the Module Twin Settings tab, copy the following JSON and paste it into the box.
-
-{
-  "deviceAutoDeleteProperties": {
-    "deleteOn": <true, false>,
-    "deleteAfterMinutes": <timeToLiveInMinutes>,
-    "retainWhileUploading": <true,false>
-  },
-  "deviceToCloudUploadProperties": {
-    "uploadOn": <true, false>,
-    "uploadOrder": "<NewestFirst, OldestFirst>",
-    "cloudStorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=<your Azure Storage Account Name>;AccountKey=<your Azure Storage Account Key>; EndpointSuffix=<your end point suffix>",
-    "storageContainersForUpload": {
-      "<source container name1>": {
-        "target": "<target container name1>"
-      }
-    },
-    "deleteAfterUpload": <true,false>
-  }
-}
+# On the Module Twin Settings tab, copy the following JSON and paste it into the box.
 
 
-{
-    "Env": [
-        "LOCAL_STORAGE_ACCOUNT_NAME=philiotbasestg",
-        "LOCAL_STORAGE_ACCOUNT_KEY=6KfJXg/aa0x3Ve6Tel+A3L5a97cmpuAOBggp6Ma/BY+vqvGehOHhgXmwumk12s54+M/xGhWm7hbX31QAxxcLgw=="
-    ],
-    "HostConfig": {
-        "Binds": [
-            "/var/iotedgeblob:/blobroot"
-        ],
-        "PortBindings": {
-            "11002/tcp": [
-                {
-                    "HostPort": "11002"
-                }
-            ]
-        }
-    }
-}
-
-
-
-{
+  {
     "deviceAutoDeleteProperties": {
-        "deleteOn": true,
-        "deleteAfterMinutes": 15,
-        "retainWhileUploading": true
+      "deleteOn": <true, false>,
+      "deleteAfterMinutes": <timeToLiveInMinutes>,
+      "retainWhileUploading": <true,false>
     },
     "deviceToCloudUploadProperties": {
-        "uploadOn": true,
-        "uploadOrder": "NewestFirst",
-        "cloudStorageConnectionString": "xxxxxxxxxxxxxxxxxxx",
-        "storageContainersForUpload": {
-            "blobroot": {
-                "target": "edgeblob"
-            }
-        },
-        "deleteAfterUpload": false
+      "uploadOn": <true, false>,
+      "uploadOrder": "<NewestFirst, OldestFirst>",
+      "cloudStorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=<your Azure Storage Account Name>;AccountKey=<your Azure Storage Account Key>; EndpointSuffix=<your end point suffix>",
+      "storageContainersForUpload": {
+        "<source container name1>": {
+          "target": "<target container name1>"
+        }
+      },
+      "deleteAfterUpload": <true,false>
     }
-}
+  }
+
+
+  {
+      "Env": [
+          "LOCAL_STORAGE_ACCOUNT_NAME=philiotbasestg",
+          "LOCAL_STORAGE_ACCOUNT_KEY=6KfJXg/aa0x3Ve6Tel+A3L5a97cmpuAOBggp6Ma/BY+vqvGehOHhgXmwumk12s54+M/xGhWm7hbX31QAxxcLgw=="
+      ],
+      "HostConfig": {
+          "Binds": [
+              "/var/iotedgeblob:/blobroot"
+          ],
+          "PortBindings": {
+              "11002/tcp": [
+                  {
+                      "HostPort": "11002"
+                  }
+              ]
+          }
+      }
+  }
+
+
+
+  {
+      "deviceAutoDeleteProperties": {
+          "deleteOn": true,
+          "deleteAfterMinutes": 15,
+          "retainWhileUploading": true
+      },
+      "deviceToCloudUploadProperties": {
+          "uploadOn": true,
+          "uploadOrder": "NewestFirst",
+          "cloudStorageConnectionString": "xxxxxxxxxxxxxxxxxxx",
+          "storageContainersForUpload": {
+              "blobroot": {
+                  "target": "edgeblob"
+              }
+          },
+          "deleteAfterUpload": false
+      }
+  }
 
 
